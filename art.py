@@ -55,29 +55,29 @@ selected_cols = [
     'mean_red_mean', 'mean_green_mean', 'mean_blue_mean'
 ]
 
-df = pd.read_csv("scaled_data.csv")
-scaled_data = df[selected_cols].dropna().to_numpy()
+df = pd.read_csv("trainings_data.csv")
+trainings_data = df[selected_cols].dropna().to_numpy()
 
-df = pd.read_csv("som_scaled_data.csv")
-som_scaled_data = df[selected_cols].to_numpy()
+df = pd.read_csv("som_trainings_data.csv")
+som_trainings_data = df[selected_cols].to_numpy()
 
 # =======================
 #  Trainieren & Labels
 # =======================
 art2 = ART2(vigilance=0.85, learning_rate=0.8)
-art2.fit(scaled_data)
+art2.fit(trainings_data)
 
 art2_som = ART2(vigilance=0.925, learning_rate=0.8)
-art2_som.fit(som_scaled_data)
+art2_som.fit(som_trainings_data)
 
-df = pd.read_csv("test_data.csv")
-test_data = df[selected_cols].dropna().to_numpy()
+df = pd.read_csv("validation_data.csv")
+validation_data = df[selected_cols].dropna().to_numpy()
 
-df = pd.read_csv("som_test_data.csv")
-som_test_data = df[selected_cols].to_numpy()
+df = pd.read_csv("som_validation_data.csv")
+som_validation_data = df[selected_cols].to_numpy()
 
-labels = art2.predict(test_data)
-labels_som = art2_som.predict(som_test_data)
+labels = art2.predict(validation_data)
+labels_som = art2_som.predict(som_validation_data)
 
 
 clusterlabels_df = pd.read_csv("clusterlabels.csv")

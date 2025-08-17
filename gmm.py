@@ -15,11 +15,11 @@ selected_cols = [
 
 
 
-df = pd.read_csv("scaled_data.csv")
-scaled_data = df[selected_cols].dropna().to_numpy()
+df = pd.read_csv("trainings_data.csv")
+trainings_data = df[selected_cols].dropna().to_numpy()
 
-df = pd.read_csv("som_scaled_data.csv")
-som_scaled_data = df[selected_cols].to_numpy()
+df = pd.read_csv("som_trainings_data.csv")
+som_trainings_data = df[selected_cols].to_numpy()
 
 
 
@@ -28,43 +28,43 @@ som_scaled_data = df[selected_cols].to_numpy()
 # ----------------------------
 n_components = 5  # Anzahl der Cluster, kann angepasst werden
 gmm_full = GaussianMixture(n_components=n_components, covariance_type='full', random_state=42)
-gmm_full.fit(scaled_data)
+gmm_full.fit(trainings_data)
 
 gmm_tied = GaussianMixture(n_components=n_components, covariance_type='tied', random_state=42)
-gmm_tied.fit(scaled_data)
+gmm_tied.fit(trainings_data)
 
 gmm_diag = GaussianMixture(n_components=n_components, covariance_type='diag', random_state=42)
-gmm_diag.fit(scaled_data)
+gmm_diag.fit(trainings_data)
 
 gmm_spherical = GaussianMixture(n_components=n_components, covariance_type='spherical', random_state=42)
-gmm_spherical.fit(scaled_data)
+gmm_spherical.fit(trainings_data)
 
 gmm_full_som = GaussianMixture(n_components=n_components, covariance_type='full', random_state=42)
-gmm_full_som.fit(som_scaled_data)
+gmm_full_som.fit(som_trainings_data)
 
 gmm_tied_som = GaussianMixture(n_components=n_components, covariance_type='tied', random_state=42)
-gmm_tied_som.fit(som_scaled_data)
+gmm_tied_som.fit(som_trainings_data)
 
 gmm_diag_som = GaussianMixture(n_components=n_components, covariance_type='diag', random_state=42)
-gmm_diag_som.fit(som_scaled_data)
+gmm_diag_som.fit(som_trainings_data)
 
 gmm_spherical_som = GaussianMixture(n_components=n_components, covariance_type='spherical', random_state=42)
-gmm_spherical_som.fit(som_scaled_data)
+gmm_spherical_som.fit(som_trainings_data)
 
-df = pd.read_csv("test_data.csv")
-test_data = df[selected_cols].dropna().to_numpy()
+df = pd.read_csv("validation_data.csv")
+validation_data = df[selected_cols].dropna().to_numpy()
 
 
-df = pd.read_csv("som_test_data.csv")
-som_test_data = df[selected_cols].to_numpy()
+df = pd.read_csv("som_validation_data.csv")
+som_validation_data = df[selected_cols].to_numpy()
 
 clusterlabels_df = pd.read_csv("clusterlabels.csv")
-clusterlabels_df["gmm_full"] = gmm_full.predict(test_data)
-clusterlabels_df["gmm_tied"] = gmm_tied.predict(test_data)
-clusterlabels_df["gmm_diag"] = gmm_diag.predict(test_data)
-clusterlabels_df["gmm_spherical"] = gmm_spherical.predict(test_data)
-clusterlabels_df["gmm_full_som"] = gmm_full_som.predict(som_test_data)
-clusterlabels_df["gmm_tied_som"] = gmm_tied_som.predict(som_test_data)
-clusterlabels_df["gmm_diag_som"] = gmm_diag_som.predict(som_test_data)
-clusterlabels_df["gmm_spherical_som"] = gmm_spherical_som.predict(som_test_data)
+clusterlabels_df["gmm_full"] = gmm_full.predict(validation_data)
+clusterlabels_df["gmm_tied"] = gmm_tied.predict(validation_data)
+clusterlabels_df["gmm_diag"] = gmm_diag.predict(validation_data)
+clusterlabels_df["gmm_spherical"] = gmm_spherical.predict(validation_data)
+clusterlabels_df["gmm_full_som"] = gmm_full_som.predict(som_validation_data)
+clusterlabels_df["gmm_tied_som"] = gmm_tied_som.predict(som_validation_data)
+clusterlabels_df["gmm_diag_som"] = gmm_diag_som.predict(som_validation_data)
+clusterlabels_df["gmm_spherical_som"] = gmm_spherical_som.predict(som_validation_data)
 clusterlabels_df.to_csv("clusterlabels.csv", index=False)

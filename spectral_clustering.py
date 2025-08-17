@@ -14,17 +14,17 @@ selected_cols = [
     'mean_red_mean', 'mean_green_mean', 'mean_blue_mean'
 ]
 
-df = pd.read_csv("scaled_data.csv")
-scaled_data = df[selected_cols].dropna().to_numpy()
+df = pd.read_csv("trainings_data.csv")
+trainings_data = df[selected_cols].dropna().to_numpy()
 
-df = pd.read_csv("som_scaled_data.csv")
-som_scaled_data = df[selected_cols].to_numpy()
+df = pd.read_csv("som_trainings_data.csv")
+som_trainings_data = df[selected_cols].to_numpy()
 
-df = pd.read_csv("test_data.csv")
-test_data = df[selected_cols].dropna().to_numpy()
+df = pd.read_csv("validation_data.csv")
+validation_data = df[selected_cols].dropna().to_numpy()
 
-df = pd.read_csv("som_test_data.csv")
-som_test_data = df[selected_cols].to_numpy()
+df = pd.read_csv("som_validation_data.csv")
+som_validation_data = df[selected_cols].to_numpy()
 
 # Anzahl der Cluster festlegen
 n_clusters = 5  # Beispiel: 3 Cluster
@@ -45,10 +45,10 @@ spectral2 = SpectralClustering(
     random_state=42
 )
 
-cluster_labels = spectral1.fit_predict(scaled_data)
-cluster_labels = spectral2.fit_predict(som_scaled_data)
+cluster_labels = spectral1.fit_predict(trainings_data)
+cluster_labels = spectral2.fit_predict(som_trainings_data)
 
 clusterlabels_df = pd.read_csv("clusterlabels.csv")
-clusterlabels_df["spectral"] = spectral1.fit_predict(test_data)
-clusterlabels_df["spectral_som"] = spectral2.fit_predict(som_test_data)
+clusterlabels_df["spectral"] = spectral1.fit_predict(validation_data)
+clusterlabels_df["spectral_som"] = spectral2.fit_predict(som_validation_data)
 clusterlabels_df.to_csv("clusterlabels.csv", index=False)

@@ -86,27 +86,27 @@ class NeuralGas:
         return np.argmin(distances, axis=1)
 
 
-df = pd.read_csv("scaled_data.csv")
-scaled_data = df[selected_cols].dropna().to_numpy()
+df = pd.read_csv("trainings_data.csv")
+trainings_data = df[selected_cols].dropna().to_numpy()
 
-df = pd.read_csv("som_scaled_data.csv")
-som_scaled_data = df[selected_cols].to_numpy()
+df = pd.read_csv("som_trainings_data.csv")
+som_trainings_data = df[selected_cols].to_numpy()
 
 ng = NeuralGas(n_neurons=5, max_iter=500)
-ng.fit(scaled_data)
+ng.fit(trainings_data)
 ng_som = NeuralGas(n_neurons=5, max_iter=500)
-ng_som.fit(som_scaled_data)
+ng_som.fit(som_trainings_data)
 
 
 
-df = pd.read_csv("test_data.csv")
-test_data = df[selected_cols].dropna().to_numpy()
+df = pd.read_csv("validation_data.csv")
+validation_data = df[selected_cols].dropna().to_numpy()
 
-df = pd.read_csv("som_test_data.csv")
-som_test_data = df[selected_cols].to_numpy()
+df = pd.read_csv("som_validation_data.csv")
+som_validation_data = df[selected_cols].to_numpy()
 
-labels = ng.predict(scaled_data)
-labels_som = ng_som.predict(som_test_data)
+labels = ng.predict(trainings_data)
+labels_som = ng_som.predict(som_validation_data)
 
 
 clusterlabels_df = pd.read_csv("clusterlabels.csv")
@@ -117,5 +117,5 @@ clusterlabels_df.to_csv("clusterlabels.csv", index=False)
 
 
 axis_features = ['roughness_mean', 'minor_std', 'contour_area_mean']  
-plot_clusters(scaled_data, labels, ng.weights, axis_features)
+plot_clusters(trainings_data, labels, ng.weights, axis_features)
 #plt.show()

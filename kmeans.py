@@ -17,7 +17,7 @@ selected_cols = [
 'mean_red_mean', 'mean_green_mean', 'mean_blue_mean'
 ]
 
-def plot_kmeans_clusters(scaled_data, cluster_labels, centroids, axis_features, title="3D Scatter mit KMeans"):
+def plot_kmeans_clusters(trainings_data, cluster_labels, centroids, axis_features, title="3D Scatter mit KMeans"):
 
 
     idx_x = selected_cols.index(axis_features[0])
@@ -30,7 +30,7 @@ def plot_kmeans_clusters(scaled_data, cluster_labels, centroids, axis_features, 
     colors = plt.cm.tab10(np.linspace(0, 1, len(unique_clusters)))
 
     for i, cluster_id in enumerate(unique_clusters):
-            cluster_points = scaled_data[cluster_labels == cluster_id]
+            cluster_points = trainings_data[cluster_labels == cluster_id]
             ax.scatter(
                 cluster_points[:, idx_x], cluster_points[:, idx_y], cluster_points[:, idx_z],
                 color=colors[i],
@@ -95,46 +95,46 @@ def silhouette_scores(X_scaled):
     plt.grid(True)
 
 
-scaled_data_df = pd.read_csv("scaled_data.csv")
-scaled_data = scaled_data_df[selected_cols].dropna().to_numpy()
+trainings_data_df = pd.read_csv("trainings_data.csv")
+trainings_data = trainings_data_df[selected_cols].dropna().to_numpy()
 
-som_scaled_data_df = pd.read_csv("som_scaled_data.csv")
-som_scaled_data = som_scaled_data_df[selected_cols].to_numpy()
+som_trainings_data_df = pd.read_csv("som_trainings_data.csv")
+som_trainings_data = som_trainings_data_df[selected_cols].to_numpy()
 
 #Bestimmung von Clusteranzahl
-elbow_method(scaled_data)
-silhouette_scores(scaled_data)
+elbow_method(trainings_data)
+silhouette_scores(trainings_data)
 
 
 k = 5  # Anzahl Cluster ermittelt über silhouette_scores
 kmeans = KMeans(n_clusters=k, random_state=42)
-kmeans.fit(scaled_data)
+kmeans.fit(trainings_data)
 centroids = kmeans.cluster_centers_
 
 kmeans2 = KMeans(n_clusters=k, random_state=40)
-kmeans2.fit(scaled_data)
+kmeans2.fit(trainings_data)
 centroids2 = kmeans2.cluster_centers_
 
 kmeans_som = KMeans(n_clusters=k, random_state=42)
-kmeans_som.fit(som_scaled_data)
+kmeans_som.fit(som_trainings_data)
 centroids_som = kmeans.cluster_centers_
 
 
 
-test_data_df = pd.read_csv("test_data.csv")
-test_data = test_data_df[selected_cols].dropna().to_numpy()
+validation_data_df = pd.read_csv("validation_data.csv")
+validation_data = validation_data_df[selected_cols].dropna().to_numpy()
 
-som_test_data_df = pd.read_csv("som_test_data.csv")
-som_test_data = som_test_data_df[selected_cols].to_numpy()
+som_validation_data_df = pd.read_csv("som_validation_data.csv")
+som_validation_data = som_validation_data_df[selected_cols].to_numpy()
 
 
-distances = cdist(test_data, centroids)  # shape: (n_test, n_clusters)
+distances = cdist(validation_data, centroids)  # shape: (n_test, n_clusters)
 labels = np.argmin(distances, axis=1)
 
-distances2 = cdist(test_data, centroids2)  # shape: (n_test, n_clusters)
+distances2 = cdist(validation_data, centroids2)  # shape: (n_test, n_clusters)
 labels2 = np.argmin(distances2, axis=1)
 
-distances_som = cdist(som_test_data, centroids_som)  # shape: (n_test, n_clusters)
+distances_som = cdist(som_validation_data, centroids_som)  # shape: (n_test, n_clusters)
 labels_som = np.argmin(distances_som, axis=1)
 
 clusterlabels_df = pd.read_csv("clusterlabels.csv")
@@ -144,5 +144,5 @@ clusterlabels_df["kmeans_som"] = labels_som
 clusterlabels_df.to_csv("clusterlabels.csv", index=False)
 
 axis_features = ['major_mean', 'minor_mean', 'mean_green_mean']  
-plot_kmeans_clusters(scaled_data, kmeans.labels_, centroids, axis_features)
-plt.show()
+plot_kmeans_clusters(trainings_data, kmeans.labels_, centroids, axis_features)
+#plt.show()

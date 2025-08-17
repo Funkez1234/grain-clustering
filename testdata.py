@@ -17,7 +17,7 @@ scaler = MinMaxScaler()
 scaled_data = scaler.fit_transform(X)
 
 scaled_data_df = pd.DataFrame(scaled_data, columns=selected_cols)
-scaled_data_df.to_csv("test_data.csv", index=False)
+scaled_data_df.to_csv("validation_data.csv", index=False)
 
 scaled_data_df = pd.DataFrame(scaled_data, columns=selected_cols)
-scaled_data_df.to_csv("scaled_data.csv", index=False)
+scaled_data_df.to_csv("trainings_data.csv", index=False)

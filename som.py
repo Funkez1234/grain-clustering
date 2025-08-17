@@ -16,7 +16,7 @@ selected_cols = [
 'mean_red_mean', 'mean_green_mean', 'mean_blue_mean'
 ]
 
-df = pd.read_csv("scaled_data.csv")
+df = pd.read_csv("trainings_data.csv")
 scaled_data = df[selected_cols].dropna().to_numpy()    # Nur ausgewählte Features(selected_cols)
 
 # Normalisieren
@@ -72,14 +72,14 @@ plt.grid(False)
 #plt.show()
 
 
-test_df = pd.read_csv("test_data.csv")
+test_df = pd.read_csv("validation_data.csv")
 test_data = test_df[selected_cols].dropna()
 
 som_df = pd.DataFrame(
     weights,
     columns=selected_cols
 )
-som_df.to_csv("som_scaled_data.csv", index=False)
+som_df.to_csv("som_trainings_data.csv", index=False)
 
 
 bmu_coordinates = []
@@ -98,5 +98,5 @@ coords_df = pd.DataFrame({
 })
 weights_df = pd.DataFrame(bmu_weights, columns=[selected_cols[i] for i in range(len(bmu_weights[0]))])
 som_df = pd.concat([coords_df.reset_index(drop=True), weights_df], axis=1)
-som_df.to_csv("som_test_data.csv", index=False)
+som_df.to_csv("som_validation_data.csv", index=False)
 
