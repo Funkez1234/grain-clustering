@@ -7,8 +7,8 @@ Implementiert ist eine [SOM](https://de.wikipedia.org/wiki/Selbstorganisierende_
 Desweiteren sind [K-means](https://de.wikipedia.org/wiki/K-Means-Algorithmus), [GMM](https://en.wikipedia.org/wiki/Mixture_model), [spektrales Clustering](https://de.wikipedia.org/wiki/Spektrales_Clustering), [ART](https://en.wikipedia.org/wiki/Adaptive_resonance_theory) und [NG](https://de.wikipedia.org/wiki/Neural_Gas)
 als Clusteringalgorithmen implementiert.
 
-In testdata.py soll aggregated_features_per_image.csv gesplittet werden in Trainingsdaten(scaled_data) und Testdaten(test_data).
-in Som.py wird dann mit den Trainingsdaten eine Kohonenkarte trainiert und die Gewichte als neu Trainingsdaten gespeichert(som_scaled_data), während von den Trainingsdaten die BMU ermittelt wird und von diesem Kohon die Gewichte gespeichert werden(som_test_data).
+In testdata.py soll aggregated_features_per_image.csv gesplittet werden in Trainingsdaten und Validierungsdaten.
+in Som.py wird dann mit den Trainingsdaten eine Kohonenkarte trainiert und die Gewichte als neu Trainingsdaten gespeichert, während von den Validierungsdaten die BMU ermittelt wird und von diesem Kohon die Gewichte gespeichert werden.
 In den anderen Dateien wird nur der jeweilige Algorthimus angewendent einmal mit den "normalen" Trainingsdaten und einmal mit den SOM Daten. Die entstehenden Clusterzuordnungen werden in clusterlabels.csv mit einem entsprechendem label gespeichert.
 
 Manchmal habe ich noch ein paar plot funktionen rein gemacht, die sind aber nicht so wichtig.
